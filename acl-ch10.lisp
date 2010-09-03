@@ -50,15 +50,30 @@
 	  (push ,expr ,g))
 	(nreverse ,g))))
 
-;; 6. Define a macro that takes a list of variables and a body of code, and ensures that
-;;the variable revert to their original values after the body of code is evaluated.
-
+; similar to the with-gensyms presented in the text
 (defmacro with-gensyms (syms &body body)
   `(let ,(mapcar #'(lambda (s) 
 		     `(,s '((gensym))))
 		 syms)
      ,@body))
 
-(defmacro revert (&rest vars &body body)
-  (with-gensyms vars
-    
+;; 6. Define a macro that takes a list of variable and a body of code and,
+;; ensures that the variables revert to their original values after the body of
+;; code is evaluated.
+
+; This works, but there is one problem: the value of (revert-vals ...)
+; is not the value of the last expression in the body. I think it should probably
+; be... 
+
+(defmacro revert-vals (vars &body body)
+  (let* ((len (length vars))
+	(gsyms (n-of len (gensym))))
+    `(let ,(mapcar #'list
+		   gsyms
+		   vars)
+       ,@body
+       ,@(mapcar #'(lambda (x y)
+		     (cons 'setf
+			   (list x y)))
+		 vars
+		 gsyms))))
