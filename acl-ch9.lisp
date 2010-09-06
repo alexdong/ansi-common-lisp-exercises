@@ -53,14 +53,3 @@
   (and (<= a x)
        (>= b x)))
 
-
-;; checks if a pair of intervals overlaps
-(defun overlap (a1 a2 b1 b2)
-  (let ((c1 (if (< a1 a2) a1 a2)) ; this ensures the ordering of the endpoints
-	(c2 (if (< a1 a2) a2 a1))
-	(d1 (if (< b1 b2) b1 b2))
-	(d2 (if (< b1 b2) b2 b1)))
-    (or (and (>= d1 c1)
-	     (<= d1 c2))
-	(and (<= c1 d2)
-	     (>= c1 d1)))))
