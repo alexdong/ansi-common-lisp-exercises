@@ -37,7 +37,6 @@
 		(- xb2 xb1)))
 	 (ca (+ (* ma (- xa1)) ya1)) ; and y-intercepts
 	 (cb (+ (* mb (- xb1)) yb1)))
-    (print (list 'slopea ma 'slopeb mb 'yinta ca 'yintb cb))
     (if (= ma mb) ; if the lines are parallel then they don't intersect, of course
 	nil
 	(let* ((xsol (/ (- cb ca)
