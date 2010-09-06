@@ -1,4 +1,5 @@
-;; 1. If x is a, y is b, and z is (c d), write backquoted expressions containing only variables
+;; 1. If x is a, y is b, and z is (c d), write backquoted expressions containing
+;; only variables
 
 (defparameter x 'a)
 (defparameter y 'b)
@@ -19,12 +20,11 @@
   `(cond (,test ,tclause)
 	 (t ,fclause)))
 
-;; 3. Define a macro that takes a number n and any number of expressions and returns the value
-;; of the nth expression.
+;; 3. Define a macro that takes a number n and any number of expressions and
+;; returns the value of the nth expression.
 
 (defmacro nthexpr (n &rest exprs)
   (elt exprs (- n 1)))
-
 
 ;; 4. Re-write the definition of ntimes to use a (local) recursive function.
 (defmacro ntimes-r (n &body body)
@@ -34,8 +34,8 @@
 		(rec (1- i)))))
      (rec ,n)))
 
-;; 5. Define a macro n-of that takes a number n and an expression and returns a list of n
-;; successive values returned by the expression:
+;; 5. Define a macro n-of that takes a number n and an expression and returns a list
+;; of n successive values returned by the expression:
 
 ;(let ((n 2))
 ;  (n-of n (incf i)))
@@ -77,3 +77,18 @@
 			   (list x y)))
 		 vars
 		 gsyms))))
+
+;; 7. What's wrong with the following definition of push?
+
+(defmacro my-push (obj lst)
+  `(setf ,lst (cons ,obj ,lst)))
+
+;; The expression passed as "lst" will be evaluated twice.  If "lst" is an 
+;; expression which produces side-effects, they will be repeated.
+
+(my-push 'e (elt *lst* (incf *i*)))
+
+;; 8. 
+
+(defmacro my-double (x)
+  `(setf ,x (+ ,x ,x)))
