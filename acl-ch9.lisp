@@ -27,6 +27,10 @@
 ;; and returns nil if they do not intersect or two values for x and y of their 
 ;; intersection.
 
+;; There might be a better (faster? easier?) way to do this, but it seemed reasonable
+;; to just use high school algebra to solve this problem. Wikipedia indicates that 
+;; for the general case of n line segments, the problem is more interesting.
+
 (defun intersect (xa1 ya1
 		  xa2 ya2
 		  xb1 yb1
@@ -47,7 +51,6 @@
 		   (btwn xb1 xb2 xsol))
 	      (values xsol ysol)
 	      nil)))))
-
 
 (defun btwn (a b x)
   (and (<= a x)
